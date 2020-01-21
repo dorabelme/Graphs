@@ -80,23 +80,25 @@ class Graph:
                     # for neighbor in self.get_neighbors(vertex):
                     stack.push(neigbor)
 
-    def dft_recursive(self, starting_vertex, visited=[]):
+    def dft_recursive(self, starting_vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        # Create an empty list to store visited vertices, addit as parameter to function
-        # Push the starting vertex ID
-        visited.append(starting_vertex)
+        # Add visited to parameters
+        if visited is None:
+            visited = set()
+        visited.add(starting_vertex)
+        print(starting_vertex)
 
         # If next vertex is not in neighbors:
         for next_vertex in self.vertices[starting_vertex]:
             # If next vertex has not been visited
             if next_vertex not in visited:
                 # Recursive call
-                visited = self.dft_recursive(next_vertex, visited)
+                self.dft_recursive(next_vertex, visited)
 
         # Print and return visited
         print(visited)
@@ -205,10 +207,10 @@ class Graph:
             return path
         for neighbor_vert in self.get_neighbors(starting_vertex):
             if neighbor_vert not in visited:
-                new = self.dfs_recursive(
+                new_path = self.dfs_recursive(
                     neighbor_vert, destination_vertex, visited, path)
-                if new is not None:
-                    return new
+                if new_path:
+                    return new_path
         return None
 
 
@@ -275,7 +277,7 @@ if __name__ == '__main__':
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
-        [1, 2, 4, 7, 6] 
+        [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
     print(graph.dfs_recursive(1, 6))
